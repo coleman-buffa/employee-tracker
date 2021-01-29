@@ -44,3 +44,15 @@ function mainMenu() {
 		 }
 	 });
 }
+
+function addDept() {
+
+}
+
+function addRole() {
+
+}
+
+function addEmployee() {
+
+}
