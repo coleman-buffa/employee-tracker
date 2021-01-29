@@ -28,7 +28,8 @@ function mainMenu() {
 		 choices: [
 			 "Add a new department",
 			 "Add a new role",
-			 "Add a new employee"
+			 "Add a new employee",
+			 "Exit"
 		 ]
 	 }).then(function(answer) {
 		 switch (answer.action) {
@@ -41,12 +42,33 @@ function mainMenu() {
 			 case "Add a new employee":
 				 addEmployee();
 				 break;
+			 case "Exit":
+				 connection.end();
+				 break;
 		 }
 	 });
 }
 
 function addDept() {
-
+	inquirer.prompt([
+		{
+			name: "deptname",
+			type: "input",
+			message: "What is the name of the department?"
+		}
+	]).then(function(answer) {
+		connection.query(
+			"INSERT INTO department SET ?",
+			{
+				name: answer.deptname
+			},
+			function(err) {
+				if (err) throw err;
+				console.log("Department added");
+				mainMenu();
+			}
+		)
+	})
 }
 
 function addRole() {
