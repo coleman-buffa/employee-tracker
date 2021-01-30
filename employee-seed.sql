@@ -1,7 +1,5 @@
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES 
-	("Zack", "Spencer", 1, null), 
-	("Coleman", "Buffa", 2, 1);
+VALUES ("Bob", "Smith", 3, null), ("Aaron", "Rowe", 2, 2);
 
 INSERT INTO role (title, salary, department_id)
 VALUES 
