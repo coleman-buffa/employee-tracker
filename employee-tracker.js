@@ -187,11 +187,16 @@ function viewDept() {
 	let query = "SELECT CONCAT (id, '. ', name) AS Departments FROM department";
 	connection.query(query, function(err, res) {
 		console.table(res);
+		mainMenu();
 	});
 }
 
 function viewRoles() {
-
+	let query = "SELECT role.title, role.salary, department.name FROM role LEFT JOIN department ON role.department_id = department.id";
+	connection.query(query, function(err, res) {
+		console.table(res);
+		mainMenu();
+	});
 }
 
 function viewEmployees() {
