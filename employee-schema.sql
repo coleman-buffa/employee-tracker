@@ -28,3 +28,6 @@ CREATE TABLE department (
 	name VARCHAR(30),
 	PRIMARY KEY (id)
 );
+
+-- Potential left join query text
+-- select employee.first_name, employee.last_name, role.title, role.salary FROM employee LEFT JOIN role ON employee.id = role.id LEFT JOIN department ON department.id

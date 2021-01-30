@@ -119,15 +119,15 @@ function addRole() {
 
 function addEmployee() {
 	const roleArray = [];
+	const mgrArray = [];
 	let queryRole = "SELECT title FROM role";
 	connection.query(queryRole, function (err, res) {
 		res.forEach(element => roleArray.push(element.title));
+		let queryMgr = "SELECT CONCAT (id, '. ', first_name, ' ', last_name) AS manager_name FROM employee";
+		connection.query(queryMgr, function (err, res) {
+			res.forEach(element => mgrArray.push(element.manager_name));
+		});
 	});
-	// const mgrArray = [];
-	// let queryMgr = "SELECT name FROM employee";
-	// connection.query(queryMgr, function (err, res) {
-	// 	res.forEach(element => choiceArray.push(element.name));
-	// });
 	inquirer.prompt([
 		{
 			name: "firstName",
@@ -144,24 +144,29 @@ function addEmployee() {
 			type: "list",
 			message: "Which role will this employee fill?",
 			choices: roleArray
+		},
+		{
+			name: "mgrName",
+			type: "list",
+			message: "Select a manager for this employee",
+			choices: mgrArray
 		}
+
 	]).then(function (answer) {
-		let query = "SELECT id FROM role WHERE ?";
-		connection.query(query, { title: answer.roleID }, function (err, res) {
-			console.log(res);
+		connection.query("SELECT id FROM role WHERE ?", { title: answer.roleID }, function (err, res) {
 			answer.roleID = res[0].id;
-			console.log(answer);
+			let mgrID = answer.mgrName.split('.');
+			answer.mgrName = parseInt(mgrID);
 			connection.query(
 				"INSERT INTO employee SET ?",
 				{
 					first_name: answer.firstName,
 					last_name: answer.lastName,
 					role_id: answer.roleID,
-					//Stub for inserting manager ID
-					//manager_id:
-				}
-			);
-			mainMenu();
+					manager_id: answer.mgrName
+				});
 		});
+		mainMenu();
 	});
 }
+
