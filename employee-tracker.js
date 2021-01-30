@@ -200,5 +200,12 @@ function viewRoles() {
 }
 
 function viewEmployees() {
-
+	let query = "SELECT CONCAT(employee.first_name,' ', employee.last_name) AS Name, role.title AS Title, department.name AS Department, role.salary AS Salary, CONCAT(man.first_name, ' ', man.last_name) AS Manager ";
+	query += "FROM employee LEFT JOIN role ON employee.id = role.id ";
+	query += "LEFT JOIN department ON role.department_id = department.id ";
+	query += "LEFT JOIN employee AS man ON employee.manager_id = man.id";
+	connection.query(query, function(err, res) {
+		console.table(res);
+		mainMenu();
+	});
 }
