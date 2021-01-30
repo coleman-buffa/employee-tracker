@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const cTable = require("console.table");
 
 const connection = mysql.createConnection({
 	host: "localhost",
@@ -29,6 +30,9 @@ function mainMenu() {
 			"Add a new department",
 			"Add a new role",
 			"Add a new employee",
+			"View departments",
+			"View roles",
+			"View employees",
 			"Exit"
 		]
 	}).then(function (answer) {
@@ -41,6 +45,15 @@ function mainMenu() {
 				break;
 			case "Add a new employee":
 				addEmployee();
+				break;
+			case "View departments":
+				viewDept();
+				break;
+			case "View roles":
+				viewRoles();
+				break;
+			case "View employees":
+				viewEmployees();
 				break;
 			case "Exit":
 				connection.end();
@@ -156,7 +169,7 @@ function addEmployee() {
 		connection.query("SELECT id FROM role WHERE ?", { title: answer.roleID }, function (err, res) {
 			answer.roleID = res[0].id;
 			let mgrID = answer.mgrName.split('.');
-			answer.mgrName = parseInt(mgrID);
+			answer.mgrName = parseInt(mgrID[0]);
 			connection.query(
 				"INSERT INTO employee SET ?",
 				{
@@ -170,3 +183,17 @@ function addEmployee() {
 	});
 }
 
+function viewDept() {
+	let query = "SELECT CONCAT (id, '. ', name) AS Departments FROM department";
+	connection.query(query, function(err, res) {
+		console.table(res);
+	});
+}
+
+function viewRoles() {
+
+}
+
+function viewEmployees() {
+
+}
