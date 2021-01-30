@@ -9,7 +9,9 @@ CREATE TABLE employee (
 	last_name VARCHAR(30) NOT NULL,
 	role_id INT NOT NULL,
 	manager_id INT,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (role_id) REFERENCES role(id),
+	FOREIGN KEY (manger_id) REFERENCES employee(id)
 );
 
 CREATE TABLE role (
@@ -17,7 +19,8 @@ CREATE TABLE role (
 	title VARCHAR(30) NOT NULL,
 	salary DECIMAL NOT NULL,
 	department_id INT NOT NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE department (
@@ -25,3 +28,6 @@ CREATE TABLE department (
 	name VARCHAR(30),
 	PRIMARY KEY (id)
 );
+
+-- Potential left join query text
+-- select employee.first_name, employee.last_name, role.title, role.salary FROM employee LEFT JOIN role ON employee.id = role.id LEFT JOIN department ON department.id
