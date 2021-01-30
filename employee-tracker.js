@@ -101,7 +101,7 @@ function addRole() {
 			choices: choiceArray
 		}
 	]).then(function (answer) {
-		let query = "SELECT id FROM department WHERE ?";			
+		let query = "SELECT id FROM department WHERE ?";
 		connection.query(query, { name: answer.deptID }, function (err, res) {
 			answer.deptID = res[0].id;
 			connection.query(
@@ -111,12 +111,57 @@ function addRole() {
 					salary: answer.salary,
 					department_id: answer.deptID
 				}
-			);			
+			);
 		});
 		mainMenu();
 	});
 }
 
 function addEmployee() {
-
+	const roleArray = [];
+	let queryRole = "SELECT title FROM role";
+	connection.query(queryRole, function (err, res) {
+		res.forEach(element => roleArray.push(element.title));
+	});
+	// const mgrArray = [];
+	// let queryMgr = "SELECT name FROM employee";
+	// connection.query(queryMgr, function (err, res) {
+	// 	res.forEach(element => choiceArray.push(element.name));
+	// });
+	inquirer.prompt([
+		{
+			name: "firstName",
+			type: "input",
+			message: "Enter employee's first name"
+		},
+		{
+			name: "lastName",
+			type: "input",
+			message: "Enter employee's last name"
+		},
+		{
+			name: "roleID",
+			type: "list",
+			message: "Which role will this employee fill?",
+			choices: roleArray
+		}
+	]).then(function (answer) {
+		let query = "SELECT id FROM role WHERE ?";
+		connection.query(query, { title: answer.roleID }, function (err, res) {
+			console.log(res);
+			answer.roleID = res[0].id;
+			console.log(answer);
+			connection.query(
+				"INSERT INTO employee SET ?",
+				{
+					first_name: answer.firstName,
+					last_name: answer.lastName,
+					role_id: answer.roleID,
+					//Stub for inserting manager ID
+					//manager_id:
+				}
+			);
+			mainMenu();
+		});
+	});
 }
