@@ -6,8 +6,8 @@ This project is a simple to use Content Management System that allows management
 
 ## Table of Contents
 
-||||
-|:-|:-|:-|:-|:-
+| |||
+|:-|:-|:-|
 | [Project Introduction](#employee-tracker) | [Table of Contents](#table-of-contents) | [Goals and Methods](#goals-and-methods) 
 | [Installation and Use](#installation-and-use) | [Technologies](#technologies) | [Deployed Link](#deployed-link) |
 | [Authors](#authors) | [Acknowledgments](#acknowledgments) | [License](#license) |
